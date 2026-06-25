@@ -118,10 +118,12 @@
     } else { okBox.classList.add('hidden'); }
   });
 
-  /* ===== Chatbot Chronos ===== */
+  /* ===== Chatbot Chronos (vraie IA Groq via proxy, avec repli local) ===== */
   var chatWin = document.getElementById('chatWin');
   var chatBody = document.getElementById('chatBody');
   var chatChips = document.getElementById('chatChips');
+  var chatHistory = [];
+  var CHAT_API = (window.TIMETRAVEL_CONFIG && window.TIMETRAVEL_CONFIG.chatApiUrl) || '';
 
   function toggleChat() {
     var willOpen = chatWin.classList.contains('hidden');
@@ -146,6 +148,22 @@
     chatBody.appendChild(wrap);
     chatBody.scrollTop = chatBody.scrollHeight;
   }
+  function showTyping() {
+    var t = document.createElement('div');
+    t.id = 'chatTyping';
+    t.className = 'flex gap-2';
+    t.innerHTML = '<div class="w-7 h-7 rounded-full bg-gradient-to-br from-goldlight to-gold text-ink text-xs font-bold flex items-center justify-center shrink-0">T</div>'
+      + '<div class="bg-panel/80 border border-cream/10 rounded-2xl rounded-tl-sm px-4 py-3 text-cream/60">'
+      + '<span class="inline-flex gap-1"><span class="w-1.5 h-1.5 bg-cream/60 rounded-full animate-bounce"></span>'
+      + '<span class="w-1.5 h-1.5 bg-cream/60 rounded-full animate-bounce" style="animation-delay:.15s"></span>'
+      + '<span class="w-1.5 h-1.5 bg-cream/60 rounded-full animate-bounce" style="animation-delay:.3s"></span></span></div>';
+    chatBody.appendChild(t);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+  function hideTyping() {
+    var t = document.getElementById('chatTyping');
+    if (t) t.remove();
+  }
   function chips(arr) {
     chatChips.innerHTML = arr.map(function (c) {
       return '<button class="chip text-xs border border-gold/40 text-gold/90 rounded-full px-3 py-1 hover:bg-gold hover:text-ink transition">' + c + '</button>';
@@ -155,7 +173,8 @@
     addMsg("Bonjour et bienvenue chez TimeTravel Agency. Je suis Chronos, votre conseiller. Quelle epoque vous fait rever ?", 'bot');
     chips(['Vos destinations', 'Les prix', 'Conseille-moi', 'Comment ca marche ?']);
   }
-  function botReply(msg) {
+
+  function localReply(msg) {
     var m = msg.toLowerCase();
     var best = null, score = 0;
     CHAT_KB.forEach(function (e) {
@@ -164,23 +183,52 @@
     });
     return best ? best.r : "Excellente question ! Je peux vous renseigner sur nos trois destinations (Alexandrie, Kyoto, Tikal), les prix, la securite du voyage ou la reservation. Que souhaitez-vous savoir ?";
   }
+
+  function aiReply() {
+    return fetch(CHAT_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: chatHistory.slice(-12) })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    }).then(function (data) {
+      if (!data.reply) throw new Error('no reply');
+      return data.reply;
+    });
+  }
+
+  function handleUser(text) {
+    text = (text || '').trim();
+    if (!text) return;
+    addMsg(text, 'me');
+    chatHistory.push({ role: 'user', content: text });
+    chatChips.innerHTML = '';
+    showTyping();
+
+    function finish(reply) {
+      hideTyping();
+      addMsg(reply, 'bot');
+      chatHistory.push({ role: 'assistant', content: reply });
+      chips(['Vos destinations', 'Les prix', 'Reserver']);
+    }
+
+    if (CHAT_API) {
+      aiReply().then(finish).catch(function () { finish(localReply(text)); });
+    } else {
+      setTimeout(function () { finish(localReply(text)); }, 450);
+    }
+  }
+
   document.getElementById('chatForm').addEventListener('submit', function (e) {
     e.preventDefault();
     var inp = document.getElementById('chatInput');
-    var v = inp.value.trim();
-    if (!v) return;
-    addMsg(v, 'me');
+    var v = inp.value;
     inp.value = '';
-    chatChips.innerHTML = '';
-    setTimeout(function () { addMsg(botReply(v), 'bot'); chips(['Vos destinations', 'Les prix', 'Reserver']); }, 450);
+    handleUser(v);
   });
   chatChips.addEventListener('click', function (e) {
-    if (e.target.classList.contains('chip')) {
-      var t = e.target.textContent;
-      addMsg(t, 'me');
-      chatChips.innerHTML = '';
-      setTimeout(function () { addMsg(botReply(t), 'bot'); chips(['Vos destinations', 'Les prix', 'Conseille-moi']); }, 400);
-    }
+    if (e.target.classList.contains('chip')) handleUser(e.target.textContent);
   });
 
   /* ===== Navigation, menu mobile, animations au scroll ===== */

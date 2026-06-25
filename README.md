@@ -1,12 +1,13 @@
 # TimeTravel Agency - Webapp Interactive
 
-Webapp d'une agence de voyage temporel fictive de luxe, mettant en scene trois destinations historiques et des fonctionnalites interactives alimentees par l'IA. Projet realise dans le cadre du cours Ynov (M2) "TimeTravel Agency : Webapp Interactive".
+Webapp d'une agence de voyage temporel fictive de luxe, mettant en scene trois destinations historiques et des fonctionnalites alimentees par l'IA. Projet Ynov (M2) - "TimeTravel Agency : Webapp Interactive".
 
 ## Auteur
 - Kamel AKAR (projet individuel)
 
 ## Demo
-- URL en ligne : (a completer apres deploiement Netlify / Vercel)
+- Repository : https://github.com/KamelAkar/-timetravel-webapp
+- Site en ligne : (URL GitHub Pages a completer)
 
 ## Destinations
 - Alexandrie, 48 av. J.-C. (Phare, Grande Bibliotheque, Egypte de Cleopatre)
@@ -14,55 +15,68 @@ Webapp d'une agence de voyage temporel fictive de luxe, mettant en scene trois d
 - Tikal, vers 750 ap. J.-C. (pyramides mayas dans la jungle)
 
 ## Stack technique
-- HTML5 / CSS3
-- Tailwind CSS (via CDN)
-- JavaScript (vanilla, sans framework)
-- Polices : Cormorant Garamond + Inter (Google Fonts)
-- Animations au scroll : IntersectionObserver (API native)
+- HTML5 / CSS3 / JavaScript (vanilla, sans framework)
+- Tailwind CSS (CDN)
+- Polices Google Fonts (Cormorant Garamond + Inter)
+- Animations au scroll : IntersectionObserver (natif)
+- Chatbot IA : API Groq (LLM Llama 3.3) via un proxy Cloudflare Worker
 
 ## Fonctionnalites
-- Page d'accueil avec hero video en arriere-plan et appels a l'action
+- Page d'accueil avec hero video et appels a l'action
 - Presentation de l'agence
-- Galerie des 3 destinations : cards interactives + fenetre detaillee (modale)
-- Chatbot "Chronos" : assistant conversationnel (destinations, prix, securite, reservation, FAQ) avec suggestions rapides
-- Quiz de recommandation : 4 questions qui orientent vers la destination ideale
+- Galerie des 3 destinations : cards interactives + fiche detaillee (modale)
+- Chatbot "Chronos" : conseiller IA (vraie IA Groq) avec repli local hors-ligne,
+  indicateur de saisie et memoire de conversation
+- Quiz de recommandation (4 questions)
 - Formulaire de reservation avec validation
-- Animations subtiles, design responsive (mobile-first), thème sombre et accents dores
+- Design responsive (mobile-first), thème sombre et accents dores
 
-## Structure du projet
+## Structure
 ```
 timetravel-webapp/
-├─ index.html          # structure de la page
-├─ css/
-│  └─ styles.css       # styles personnalises
+├─ index.html
+├─ css/styles.css
 ├─ js/
-│  ├─ data.js          # donnees (destinations, quiz, base du chatbot)
-│  └─ app.js           # logique (galerie, modale, quiz, formulaire, chatbot, animations)
-├─ assets/             # images et videos (issues du projet 1)
+│  ├─ config.js     # URL du proxy chatbot (a renseigner pour activer la vraie IA)
+│  ├─ data.js       # destinations, quiz, base de connaissances du repli local
+│  └─ app.js        # logique (galerie, modale, quiz, formulaire, chatbot, animations)
+├─ worker/worker.js # proxy Cloudflare (garde la cle API cote serveur)
+├─ assets/          # images + video de fond
 ├─ README.md
 ├─ LICENSE
 └─ .gitignore
 ```
 
+## Chatbot IA (Groq) - activation
+Le chatbot fonctionne par defaut en mode local (hors-ligne, base de connaissances).
+Pour activer la vraie IA generative, sans jamais exposer de cle dans le site :
+
+1. Cree une cle API gratuite sur https://console.groq.com/keys
+2. Cree un compte gratuit Cloudflare, puis Workers & Pages -> Create -> Worker.
+3. Colle le contenu de `worker/worker.js`, deploie le Worker.
+4. Dans le Worker : Settings -> Variables and Secrets -> ajoute le secret
+   `GROQ_API_KEY` = ta cle Groq.
+5. Copie l'URL du Worker (xxxxx.workers.dev) dans `js/config.js` :
+   `chatApiUrl: "https://xxxxx.workers.dev"`
+
+Si l'URL est vide ou le proxy indisponible, le chatbot bascule automatiquement
+sur le conseiller local : la webapp reste pleinement fonctionnelle en toutes circonstances.
+
 ## Lancer en local
-Aucune installation requise. Ouvrir `index.html` dans un navigateur moderne (double-clic), ou servir le dossier avec un petit serveur statique :
+Ouvrir `index.html` dans un navigateur, ou servir le dossier :
 ```
 python -m http.server 8000
-# puis ouvrir http://localhost:8000
 ```
 
 ## Deploiement
-Projet statique : deployable gratuitement par glisser-deposer du dossier sur Netlify Drop (https://app.netlify.com/drop), ou via Vercel / GitHub Pages.
+Site statique : GitHub Pages, Netlify Drop ou Vercel. Le proxy chatbot se deploie
+separement sur Cloudflare Workers (gratuit).
 
 ## Outils IA utilises (transparence)
-- Code de la webapp : genere et assemble avec une IA generative (assistant de code)
-- Visuels (images et videos) : Google Flow (modele d'image Nano Banana 2 + image-to-video), projet 1 TimeTravel Agency
+- Code : genere et assemble avec une IA generative (assistant de code)
+- Visuels (images + video) : Google Flow (Nano Banana 2 + image-to-video), projet 1
 - Voix-off et musique du teaser : ElevenLabs et Suno
-- Chatbot "Chronos" : base de connaissances locale (sans cle API exposee). Peut etre branche a une API LLM (Groq, Mistral) via une fonction serverless pour des reponses entierement generatives.
-
-## Credits
-- Assets visuels et audio : production originale (projet 1)
-- Tailwind CSS, Google Fonts : sous leurs licences respectives
+- Chatbot : API Groq (Llama 3.3) via proxy Cloudflare ; repli local sans cle
 
 ## Licence
-Projet pedagogique a usage educatif (voir fichier LICENSE). Agence et contenus fictifs.
+Projet pedagogique a usage educatif (voir LICENSE). Agence et contenus fictifs.
