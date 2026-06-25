@@ -1,0 +1,18 @@
+/* TimeTravel Agency - styles personnalises */
+html { scroll-behavior: smooth; }
+body { background:#0b0e14; color:#f4ecd8; }
+
+.reveal { opacity:0; transform: translateY(28px); transition: all .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.show { opacity:1; transform: none; }
+
+.gold-grad { background: linear-gradient(90deg,#e7cd8a,#c9a24b); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+.card-img { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+.dest-card:hover .card-img { transform: scale(1.08); }
+
+.glass { background: rgba(17,21,31,.7); backdrop-filter: blur(10px); }
+
+::-webkit-scrollbar { width:10px; }
+::-webkit-scrollbar-track { background:#0b0e14; }
+::-webkit-scrollbar-thumb { background:#2a2f3a; border-radius:5px; }
+.chat-scroll { scrollbar-width: thin; }

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimeTravel Agency - Le temps est votre destination</title>
+<meta name="description" content="Agence de voyage temporel de luxe. Explorez Alexandrie 48 av. J.-C., Kyoto 1700 et la cite maya de Tikal.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  window.tailwind = window.tailwind || {};
+  tailwind.config = {
+    theme: { extend: {
+      colors: { ink: '#0b0e14', panel: '#11151f', gold: '#c9a24b', goldlight: '#e7cd8a', cream: '#f4ecd8', muted: '#9aa3b2' },
+      fontFamily: { serif: ['"Cormorant Garamond"','serif'], sans: ['Inter','sans-serif'] }
+    } }
+  };
+</script>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+<header id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-500">
+  <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#hero" class="font-serif text-2xl font-bold tracking-wide"><span class="gold-grad">TimeTravel</span> <span class="text-cream">Agency</span></a>
+    <div class="hidden md:flex items-center gap-8 text-sm tracking-wide text-cream/80">
+      <a href="#apropos" class="hover:text-gold transition">L'agence</a>
+      <a href="#destinations" class="hover:text-gold transition">Destinations</a>
+      <a href="#quiz" class="hover:text-gold transition">Trouver mon epoque</a>
+      <a href="#reserver" class="hover:text-gold transition">Reserver</a>
+    </div>
+    <a href="#reserver" class="hidden md:inline-block px-5 py-2 rounded-full border border-gold/60 text-gold text-sm hover:bg-gold hover:text-ink transition">Reserver un voyage</a>
+    <button id="burger" class="md:hidden text-cream text-2xl">&#9776;</button>
+  </nav>
+  <div id="mobileMenu" class="md:hidden hidden glass px-6 py-4 flex-col gap-4 text-cream/90">
+    <a href="#apropos" class="block py-1">L'agence</a>
+    <a href="#destinations" class="block py-1">Destinations</a>
+    <a href="#quiz" class="block py-1">Trouver mon epoque</a>
+    <a href="#reserver" class="block py-1">Reserver</a>
+  </div>
+</header>
+
+<section id="hero" class="relative h-screen min-h-[640px] flex items-center justify-center text-center overflow-hidden">
+  <video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline poster="assets/alexandrie.jpeg">
+    <source src="assets/hero.mp4" type="video/mp4">
+  </video>
+  <div class="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink"></div>
+  <div class="relative z-10 px-6 max-w-3xl">
+    <p class="reveal tracking-[0.3em] text-gold/90 text-xs md:text-sm mb-5 uppercase">Agence de voyage temporel</p>
+    <h1 class="reveal font-serif text-5xl md:text-7xl font-bold leading-tight mb-6">Et si le temps devenait votre <span class="gold-grad">prochaine destination</span> ?</h1>
+    <p class="reveal text-cream/80 text-lg md:text-xl mb-9 font-light">Trois epoques. Trois merveilles. Un seul voyage. Vivez l'Histoire de l'interieur, dans un confort d'exception.</p>
+    <div class="reveal flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#destinations" class="px-8 py-3 rounded-full bg-gradient-to-r from-goldlight to-gold text-ink font-semibold hover:opacity-90 transition">Decouvrir les destinations</a>
+      <a href="#quiz" class="px-8 py-3 rounded-full border border-cream/30 text-cream hover:border-gold hover:text-gold transition">Trouver mon epoque ideale</a>
+    </div>
+  </div>
+  <a href="#apropos" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-cream/60 animate-bounce z-10">&#8595;</a>
+</section>
+
+<section id="apropos" class="py-28 px-6">
+  <div class="max-w-4xl mx-auto text-center">
+    <p class="reveal tracking-[0.3em] text-gold text-xs uppercase mb-4">L'agence</p>
+    <h2 class="reveal font-serif text-4xl md:text-5xl font-bold mb-8">Le luxe de remonter le temps</h2>
+    <p class="reveal text-cream/75 text-lg leading-relaxed font-light mb-6">TimeTravel Agency est la premiere maison de voyage temporel haut de gamme. Nous concevons des sejours d'exception vers les plus belles epoques de l'humanite, avec un accompagnement sur mesure, une securite absolue et un sens du detail digne des plus grandes maisons.</p>
+    <p class="reveal text-cream/75 text-lg leading-relaxed font-light">Chaque destination a ete etudiee par nos historiens pour vous offrir une immersion authentique, elegante et inoubliable.</p>
+    <div class="reveal grid grid-cols-3 gap-6 mt-14">
+      <div><div class="font-serif text-4xl md:text-5xl gold-grad font-bold">3</div><div class="text-muted text-sm mt-2 tracking-wide">Epoques exclusives</div></div>
+      <div><div class="font-serif text-4xl md:text-5xl gold-grad font-bold">100%</div><div class="text-muted text-sm mt-2 tracking-wide">Sur mesure</div></div>
+      <div><div class="font-serif text-4xl md:text-5xl gold-grad font-bold">&#8734;</div><div class="text-muted text-sm mt-2 tracking-wide">Souvenirs</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="destinations" class="py-24 px-6 bg-panel/40">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <p class="reveal tracking-[0.3em] text-gold text-xs uppercase mb-4">Nos destinations</p>
+      <h2 class="reveal font-serif text-4xl md:text-5xl font-bold">Choisissez votre epoque</h2>
+    </div>
+    <div id="destGrid" class="grid md:grid-cols-3 gap-8"></div>
+  </div>
+</section>
+
+<section id="quiz" class="py-28 px-6">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-12">
+      <p class="reveal tracking-[0.3em] text-gold text-xs uppercase mb-4">Recommandation personnalisee</p>
+      <h2 class="reveal font-serif text-4xl md:text-5xl font-bold">Quelle epoque est faite pour vous ?</h2>
+      <p class="reveal text-cream/60 mt-4 font-light">Repondez a 4 questions, notre conseiller vous oriente.</p>
+    </div>
+    <div id="quizBox" class="reveal glass rounded-2xl border border-gold/20 p-8 md:p-10"></div>
+  </div>
+</section>
+
+<section id="reserver" class="py-28 px-6 bg-panel/40">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-12">
+      <p class="reveal tracking-[0.3em] text-gold text-xs uppercase mb-4">Reservation</p>
+      <h2 class="reveal font-serif text-4xl md:text-5xl font-bold">Planifiez votre voyage</h2>
+    </div>
+    <form id="resaForm" class="reveal glass rounded-2xl border border-gold/20 p-8 md:p-10 grid gap-5" novalidate>
+      <div class="grid md:grid-cols-2 gap-5">
+        <div>
+          <label class="block text-sm text-cream/70 mb-2">Nom complet</label>
+          <input name="nom" type="text" class="w-full bg-ink/60 border border-cream/15 rounded-lg px-4 py-3 focus:border-gold outline-none" placeholder="Votre nom">
+          <p class="err text-red-400 text-xs mt-1 hidden">Merci d'indiquer votre nom.</p>
+        </div>
+        <div>
+          <label class="block text-sm text-cream/70 mb-2">Email</label>
+          <input name="email" type="email" class="w-full bg-ink/60 border border-cream/15 rounded-lg px-4 py-3 focus:border-gold outline-none" placeholder="vous@email.com">
+          <p class="err text-red-400 text-xs mt-1 hidden">Email invalide.</p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-5">
+        <div>
+          <label class="block text-sm text-cream/70 mb-2">Destination</label>
+          <select name="dest" class="w-full bg-ink/60 border border-cream/15 rounded-lg px-4 py-3 focus:border-gold outline-none">
+            <option value="">Choisir...</option>
+            <option>Alexandrie, 48 av. J.-C.</option>
+            <option>Kyoto, 1700 (ere Edo)</option>
+            <option>Tikal, vers 750 ap. J.-C.</option>
+          </select>
+          <p class="err text-red-400 text-xs mt-1 hidden">Choisissez une destination.</p>
+        </div>
+        <div>
+          <label class="block text-sm text-cream/70 mb-2">Date de depart</label>
+          <input name="date" type="date" class="w-full bg-ink/60 border border-cream/15 rounded-lg px-4 py-3 focus:border-gold outline-none">
+          <p class="err text-red-400 text-xs mt-1 hidden">Choisissez une date.</p>
+        </div>
+        <div>
+          <label class="block text-sm text-cream/70 mb-2">Voyageurs</label>
+          <input name="pax" type="number" min="1" max="8" value="2" class="w-full bg-ink/60 border border-cream/15 rounded-lg px-4 py-3 focus:border-gold outline-none">
+        </div>
+      </div>
+      <button type="submit" class="mt-2 px-8 py-3 rounded-full bg-gradient-to-r from-goldlight to-gold text-ink font-semibold hover:opacity-90 transition justify-self-start">Demander un devis</button>
+      <div id="resaOk" class="hidden text-center py-4 px-5 rounded-lg bg-gold/10 border border-gold/30 text-goldlight"></div>
+    </form>
+  </div>
+</section>
+
+<footer class="border-t border-cream/10 py-12 px-6">
+  <div class="max-w-7xl mx-auto text-center">
+    <div class="font-serif text-2xl font-bold mb-3"><span class="gold-grad">TimeTravel</span> Agency</div>
+    <p class="text-cream/60 italic mb-6">Le temps est votre destination.</p>
+    <p id="teamNames" class="text-muted text-sm">Projet realise par : Kamel AKAR</p>
+    <p class="text-muted/60 text-xs mt-2">Projet pedagogique Ynov - M2 - TimeTravel Agency : Webapp Interactive. Agence fictive.</p>
+  </div>
+</footer>
+
+<button id="chatToggle" class="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full bg-gradient-to-br from-goldlight to-gold text-ink text-2xl shadow-2xl shadow-gold/30 flex items-center justify-center hover:scale-105 transition" aria-label="Ouvrir le chat">&#128172;</button>
+<div id="chatWin" class="fixed bottom-24 right-6 z-50 w-[92vw] max-w-sm h-[70vh] max-h-[560px] glass rounded-2xl border border-gold/30 shadow-2xl hidden flex-col overflow-hidden">
+  <div class="bg-gradient-to-r from-panel to-ink px-5 py-4 border-b border-gold/20 flex items-center gap-3">
+    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-goldlight to-gold flex items-center justify-center text-ink font-bold">T</div>
+    <div><div class="font-semibold text-cream text-sm">Chronos</div><div class="text-[11px] text-gold/80">Conseiller TimeTravel - en ligne</div></div>
+  </div>
+  <div id="chatBody" class="flex-1 overflow-y-auto chat-scroll p-4 space-y-3 text-sm"></div>
+  <div id="chatChips" class="px-3 pb-2 flex flex-wrap gap-2"></div>
+  <form id="chatForm" class="p-3 border-t border-cream/10 flex gap-2">
+    <input id="chatInput" autocomplete="off" class="flex-1 bg-ink/60 border border-cream/15 rounded-full px-4 py-2 text-sm focus:border-gold outline-none" placeholder="Posez votre question...">
+    <button type="submit" class="w-10 h-10 rounded-full bg-gradient-to-br from-goldlight to-gold text-ink font-bold">&#10148;</button>
+  </form>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

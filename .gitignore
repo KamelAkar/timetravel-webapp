@@ -1,0 +1,12 @@
+# Systeme
+.DS_Store
+Thumbs.db
+# Editeurs
+.vscode/
+.idea/
+# Dependances / build
+node_modules/
+dist/
+# Env / secrets (ne jamais committer de cles API)
+.env
+.env.local
