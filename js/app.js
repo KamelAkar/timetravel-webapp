@@ -132,6 +132,7 @@
       chatWin.classList.add('flex');
       if (chatBody.children.length === 0) botStart();
       document.getElementById('chatInput').focus();
+      dismissTeaser();
     } else {
       chatWin.classList.add('hidden');
       chatWin.classList.remove('flex');
@@ -139,12 +140,55 @@
   }
   document.getElementById('chatToggle').addEventListener('click', toggleChat);
 
+  // Incitation a ouvrir le chat (bulle + pastille + pulsation)
+  var chatBtn = document.getElementById('chatToggle');
+  var chatDot = document.createElement('span');
+  chatDot.className = 'absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-ink hidden';
+  chatBtn.appendChild(chatDot);
+  var chatTeaser = document.createElement('div');
+  chatTeaser.id = 'chatTeaser';
+  chatTeaser.className = 'fixed bottom-24 right-6 z-40 max-w-[230px] glass border border-gold/30 rounded-2xl rounded-br-sm px-4 py-3 text-sm text-cream/90 shadow-xl cursor-pointer hidden';
+  chatTeaser.innerHTML = '<button id="chatTeaserClose" class="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-ink/80 border border-cream/20 text-cream/70 text-xs leading-none">&times;</button>Une question sur nos voyages ? <span class="text-gold">Discutez avec Chronos</span> &#10024;';
+  document.body.appendChild(chatTeaser);
+  var teaserDismissed = false;
+  function showTeaser() {
+    if (teaserDismissed) return;
+    if (!chatWin.classList.contains('hidden')) return;
+    chatTeaser.classList.remove('hidden');
+    chatBtn.classList.add('chat-pulse');
+    chatDot.classList.remove('hidden');
+  }
+  function dismissTeaser() {
+    teaserDismissed = true;
+    chatTeaser.classList.add('hidden');
+    chatBtn.classList.remove('chat-pulse');
+    chatDot.classList.add('hidden');
+  }
+  setTimeout(showTeaser, 4500);
+  chatTeaser.addEventListener('click', function (e) {
+    if (e.target.id === 'chatTeaserClose') { e.stopPropagation(); dismissTeaser(); return; }
+    dismissTeaser(); toggleChat();
+  });
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function formatBot(s) {
+    s = esc(s);
+    s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="underline text-gold">$1</a>');
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+    s = s.replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
+    s = s.replace(/\n/g, '<br>');
+    return s;
+  }
   function addMsg(txt, who) {
     var wrap = document.createElement('div');
     wrap.className = who === 'bot' ? 'flex gap-2' : 'flex justify-end';
+    var safe = who === 'bot' ? formatBot(txt) : esc(txt);
     wrap.innerHTML = who === 'bot'
-      ? '<div class="w-7 h-7 rounded-full bg-gradient-to-br from-goldlight to-gold text-ink text-xs font-bold flex items-center justify-center shrink-0">T</div><div class="bg-panel/80 border border-cream/10 rounded-2xl rounded-tl-sm px-4 py-2 max-w-[78%] text-cream/90">' + txt + '</div>'
-      : '<div class="bg-gradient-to-br from-goldlight to-gold text-ink rounded-2xl rounded-tr-sm px-4 py-2 max-w-[78%]">' + txt + '</div>';
+      ? '<div class="w-7 h-7 rounded-full bg-gradient-to-br from-goldlight to-gold text-ink text-xs font-bold flex items-center justify-center shrink-0">T</div><div class="bg-panel/80 border border-cream/10 rounded-2xl rounded-tl-sm px-4 py-2 max-w-[78%] text-cream/90 leading-relaxed">' + safe + '</div>'
+      : '<div class="bg-gradient-to-br from-goldlight to-gold text-ink rounded-2xl rounded-tr-sm px-4 py-2 max-w-[78%]">' + safe + '</div>';
     chatBody.appendChild(wrap);
     chatBody.scrollTop = chatBody.scrollHeight;
   }

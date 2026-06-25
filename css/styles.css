@@ -16,3 +16,10 @@ body { background:#0b0e14; color:#f4ecd8; }
 ::-webkit-scrollbar-track { background:#0b0e14; }
 ::-webkit-scrollbar-thumb { background:#2a2f3a; border-radius:5px; }
 .chat-scroll { scrollbar-width: thin; }
+
+/* Chatbot : animation d'ouverture + incitation */
+@keyframes chatPop { 0% { opacity:0; transform: translateY(16px) scale(.96); } 100% { opacity:1; transform:none; } }
+#chatWin.flex { animation: chatPop .28s cubic-bezier(.2,.7,.2,1); transform-origin: bottom right; }
+#chatTeaser:not(.hidden) { animation: chatPop .35s ease both; transform-origin: bottom right; }
+@keyframes chatPulse { 0% { box-shadow:0 0 0 0 rgba(201,162,75,.5); } 70% { box-shadow:0 0 0 16px rgba(201,162,75,0); } 100% { box-shadow:0 0 0 0 rgba(201,162,75,0); } }
+.chat-pulse { animation: chatPulse 2.2s ease-out infinite; }

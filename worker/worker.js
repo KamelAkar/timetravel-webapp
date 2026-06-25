@@ -21,7 +21,7 @@ Destinations et tarifs (tout compris, transfert temporel + hebergement d'epoque 
 - Tikal, vers 750 ap. J.-C. : pyramides mayas dans la jungle, astronomie maya. A partir de 18 200 euros.
 
 Le voyage est 100% securise (capsule privee, guide permanent). Duree : 5 a 7 jours sur place, retour a la seconde du depart.
-Pour reserver : section Reserver du site. Reponds toujours en francais, de facon concise (2 a 4 phrases), elegante et premium.`;
+Pour reserver : section Reserver du site. Reponds toujours en francais, de facon concise (2 a 4 phrases), elegante et premium. Ecris en texte simple, SANS Markdown : pas d'asterisques, pas de listes numerotees, pas de liens cliquables.`;
 
 export default {
   async fetch(request, env) {
